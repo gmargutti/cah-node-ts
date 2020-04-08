@@ -12,3 +12,9 @@ database/*.sqlite
 
 #API Auto-generated Documentation
 apidoc
+
+#JS transpiled files from TS
+dist
+
+#Auto-generated coverage report from Jest
+__tests__/coverage

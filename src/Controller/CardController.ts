@@ -6,9 +6,9 @@ export interface CardListInterface {
 }
 
 class CardController {
-  private CardsResponse: CardInterface[]
+  private CardsResponse?: CardInterface[]
 
-  private CardsPrompt: CardInterface[]
+  private CardsPrompt?: CardInterface[]
 
 
   public getResponses = async (): Promise<CardInterface[]> => {

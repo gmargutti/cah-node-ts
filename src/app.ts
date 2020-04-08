@@ -25,7 +25,7 @@ class App {
     }
 
     private database(): void {
-      mongoose.connect(process.env.MONGODB_CONNECTIONSTRING, {
+      mongoose.connect(`${process.env.MONGODB_CONNECTIONSTRING}`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       });
