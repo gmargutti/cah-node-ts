@@ -30,6 +30,6 @@ describe('GameController', () => {
   it('should throw error: invalid id', async () => {
     const game = await GameController.newGame();
     const invalidId = game.id.substring(0, game.id.length - 2);
-    expect(() => GameController.endGame(invalidId)).toThrow(new Error('Game doesn\'t exist'));
+    expect(() => GameController.endGame(invalidId)).toThrow('Game doesn\'t exist');
   });
 });
