@@ -15,7 +15,10 @@ class GameController {
   public endGame(gameId: string): GameInterface {
     const game = GamesList.games.filter((g) => g.id === gameId)[0];
     if (!game) {
-      throw new Error('Game doesn\'t exist');
+      const error = new Error();
+      error.message = 'Game doesn\'t exist';
+      error.name = 'GameNotFound';
+      throw error;
     }
     GamesList.games = GamesList.games.filter((g) => g !== game);
     return game;
