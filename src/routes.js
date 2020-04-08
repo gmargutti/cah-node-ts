@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import CardController from './Controller/CardController';
+import CardApiController from './API/CardApiController';
 
 const routes = Router();
 
 
-routes.get('/cards/prompts', CardController.getPrompts);
-routes.get('/cards/responses', CardController.getResponses);
-routes.get('/cards/all', CardController.getAll);
+routes.get('/cards/prompts', CardApiController.getPrompts);
+routes.get('/cards/responses', CardApiController.getResponses);
+routes.get('/cards/all', CardApiController.getAll);
 
 export default routes;

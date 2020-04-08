@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon --inspect src/server.ts",
-    "build": "sucrase ./src ./dist --transforms typescript,imports"
+    "build": "sucrase ./src ./dist --transforms typescript,imports",
+    "apidoc": "apidoc -i src/ -o apidoc/"
   },
   "devDependencies": {
     "@types/cors": "^2.8.6",
