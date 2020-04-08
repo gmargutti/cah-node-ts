@@ -27,7 +27,7 @@ class CardApiController {
  *       "error": "QueryFailed"
  *     }
  */
-  public getResponses = async (req: Request, res: Response): Promise<Response> => {
+  public getResponses = async (_req: Request, res: Response): Promise<Response> => {
     try {
       const cardsResponse = await CardController.getResponses();
       return res.json(cardsResponse);
@@ -61,7 +61,7 @@ class CardApiController {
  *       "error": "QueryFailed"
  *     }
  */
-  public getPrompts = async (req: Request, res: Response): Promise<Response> => {
+  public getPrompts = async (_req: Request, res: Response): Promise<Response> => {
     try {
       const cardsPrompt = await CardController.getPrompts();
       return res.json(cardsPrompt);
@@ -104,7 +104,7 @@ class CardApiController {
  *       "error": "QueryFailed"
  *     }
  */
-  public getAll = async (req: Request, res: Response): Promise<Response> => {
+  public getAll = async (_req: Request, res: Response): Promise<Response> => {
     try {
       const cards = await CardController.getAll();
       return res.json(cards);
