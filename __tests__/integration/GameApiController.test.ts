@@ -34,4 +34,31 @@ describe('API - Games', () => {
       .expect('Content-Type', 'application/json; charset=utf-8')
       .expect(404, done);
   });
+
+  it('GET /games - should return all games on the list and HTTP code 200', async (done) => {
+    supertest(app)
+      .get('/games')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200, done);
+  });
+
+  it('GET /games/:id - should return game with given ID', async (done) => {
+    const game = await GameController.newGame();
+    supertest(app)
+      .get(`/games/${game.id}`)
+      .set('Accept', 'application/json')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(200, done);
+  });
+
+  it('GET /games/:id - should return HTTP code 404 - GameNotFound', async (done) => {
+    const game = await GameController.newGame();
+    const invalidId = game.id.substring(0, game.id.length - 2);
+    supertest(app)
+      .get(`/games/${invalidId}`)
+      .set('Accept', 'application/json')
+      .expect('Content-Type', 'application/json; charset=utf-8')
+      .expect(404, done);
+  });
 });

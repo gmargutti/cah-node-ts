@@ -23,6 +23,20 @@ class GameController {
     GamesList.games = GamesList.games.filter((g) => g !== game);
     return game;
   }
+
+  public getGames(): GameInterface[] {
+    return GamesList.games;
+  }
+
+  public getGame(gameId: string): GameInterface {
+    const game = GamesList.games.filter((g) => g.id === gameId)[0];
+    if (!game) {
+      const error = new Error('Game doesn\'t exist');
+      error.name = 'GameNotFound';
+      throw error;
+    }
+    return game;
+  }
 }
 
 export default new GameController();

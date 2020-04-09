@@ -8,7 +8,7 @@
     "prebuild": "apidoc -i src/ -o apidoc/",
     "build": "sucrase ./src -d ./dist --transforms typescript,imports",
     "docs": "apidoc -i src/ -o apidoc/",
-    "test": "jest"
+    "test": "jest --no-cache"
   },
   "devDependencies": {
     "@types/cors": "^2.8.6",
