@@ -11,7 +11,14 @@
             "name": "Launch Program",
             "skipFiles": [
                 "<node_internals>/**"
-            ],
+            ]
+        },
+        {
+            "name": "Docker Node.js Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "platform": "node"
         }
     ]
 }

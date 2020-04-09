@@ -1,8 +1,13 @@
 import supertest from 'supertest';
+import mongoose from 'mongoose';
 import app from '../../src/app';
 import GameController from '../../src/Controller/GameController';
 
 describe('API - Games', () => {
+  afterAll(() => {
+    mongoose.connection.close();
+  });
+
   it('POST /games - should create a new game and return HTTP code 200', (done) => {
     supertest(app)
       .post('/games')

@@ -1,8 +1,12 @@
 import supertest from 'supertest';
+import mongoose from 'mongoose';
 import app from '../../src/app';
 
 
 describe('API - Card', () => {
+  afterAll(() => {
+    mongoose.connection.close();
+  });
   it('GET /cards/responses - should return Response cards', async (done) => {
     supertest(app)
       .get('/cards/responses')

@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import path from 'path';
 import CardApiController from './API/CardApiController';
-import GameApiController from './Api/GameApiController';
+import GameApiController from './API/GameApiController';
 
 const routes: Router = Router();
 

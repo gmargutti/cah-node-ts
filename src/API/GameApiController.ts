@@ -23,7 +23,7 @@ class GameApiController {
   }
 
   /**
- * @api {delete} /games Delete Existing Game
+ * @api {delete} /games/:id Delete Existing Game
  * @apiName DeleteGames
  * @apiGroup Games
  *
