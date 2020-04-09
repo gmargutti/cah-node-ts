@@ -1,7 +1,6 @@
 import supertest from 'supertest';
 import mongoose from 'mongoose';
 import app from '../../src/app';
-import GameController from '../../src/Controller/GameController';
 
 describe('API - Games', () => {
   afterAll(() => {
@@ -17,7 +16,9 @@ describe('API - Games', () => {
   });
 
   it('DELETE /games/:id - should delete the game where ID equals to query param :id and return HTTP code 200', async (done) => {
-    const game = await GameController.newGame();
+    const res = await supertest(app).post('/games');
+    const game = res.body;
+
     supertest(app)
       .delete(`/games/${game.id}`)
       .set('Accept', 'application/json')
@@ -26,7 +27,8 @@ describe('API - Games', () => {
   });
 
   it('DELETE /games/:id - should return HTTP code 404 - Not Found', async (done) => {
-    const game = await GameController.newGame();
+    const res = await supertest(app).post('/games');
+    const game = res.body;
     const invalidId = game.id.substring(0, game.id.length - 2);
     supertest(app)
       .delete(`/games/${invalidId}`)
@@ -44,7 +46,8 @@ describe('API - Games', () => {
   });
 
   it('GET /games/:id - should return game with given ID', async (done) => {
-    const game = await GameController.newGame();
+    const res = await supertest(app).post('/games');
+    const game = res.body;
     supertest(app)
       .get(`/games/${game.id}`)
       .set('Accept', 'application/json')
@@ -53,7 +56,8 @@ describe('API - Games', () => {
   });
 
   it('GET /games/:id - should return HTTP code 404 - GameNotFound', async (done) => {
-    const game = await GameController.newGame();
+    const res = await supertest(app).post('/games');
+    const game = res.body;
     const invalidId = game.id.substring(0, game.id.length - 2);
     supertest(app)
       .get(`/games/${invalidId}`)
