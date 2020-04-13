@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import GameController from '../../src/Controller/GameController';
-import { GameInterface } from '../../src/Model/Game';
+import Game from '../../src/Model/Game';
+import GamesList from '../../src/Model/GamesList';
 
 describe('GameController', () => {
   beforeAll(async () => {
@@ -17,48 +18,36 @@ describe('GameController', () => {
   });
 
   it('should add new game to GamesList', async () => {
-    const list: GameInterface[] = [];
-    const controller = new GameController(list);
-    const game = await controller.newGame();
-    expect(list.filter((g) => g == game).length).toBe(1);
+    const game = await GameController.newGame();
+    expect(GamesList[game.id]).toBeInstanceOf(Game);
   });
 
   it('should remove existing game from GamesList', async () => {
-    const list: GameInterface[] = [];
-    const controller = new GameController(list);
-    const game = await controller.newGame();
-    controller.endGame(game.id);
-    expect(list.filter((g) => g == game).length).toBe(0);
+    const game = await GameController.newGame();
+    GameController.endGame(game.id);
+    expect(GamesList[game.id]).toBe(undefined);
   });
 
   it('should throw error: invalid id', async () => {
-    const list: GameInterface[] = [];
-    const controller = new GameController(list);
-    const game = await controller.newGame();
+    const game = await GameController.newGame();
     const invalidId = game.id.substring(0, game.id.length - 2);
-    expect(() => controller.endGame(invalidId)).toThrow('Game doesn\'t exist');
+    expect(() => GameController.endGame(invalidId)).toThrow('Game doesn\'t exist');
   });
 
   it('should return all games on the list', async () => {
-    const list: GameInterface[] = [];
-    const controller = new GameController(list);
-    await Promise.all([controller.newGame(), controller.newGame(), controller.newGame()]);
-    expect(controller.getGames().length).toBe(3);
+    await Promise.all([GameController.newGame(), GameController.newGame(), GameController.newGame()]);
+    expect(GameController.getGames()).toBeInstanceOf(Object);
   });
 
   it('should return game with given id', async () => {
-    const list: GameInterface[] = [];
-    const controller = new GameController(list);
-    const game = await controller.newGame();
-    const foundGame = controller.getGame(game.id);
+    const game = await GameController.newGame();
+    const foundGame = GameController.getGame(game.id);
     expect(game.id).toBe(foundGame.id);
   });
 
   it('should return error: GameNotFound', async () => {
-    const list: GameInterface[] = [];
-    const controller = new GameController(list);
-    const game = await controller.newGame();
+    const game = await GameController.newGame();
     const invalidId = game.id.substring(game.id.length - 2);
-    expect(() => controller.getGame(invalidId)).toThrow('Game doesn\'t exist');
+    expect(() => GameController.getGame(invalidId)).toThrow('Game doesn\'t exist');
   });
 });

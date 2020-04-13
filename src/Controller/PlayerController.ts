@@ -1,11 +1,17 @@
 import GamesList from '../Model/GamesList';
 import { CardInterface } from '../Schemas/Card';
 import Player, { PlayerInterface } from '../Model/Players';
+import PlayersList from '../Model/PlayersList';
 
 class PlayerController {
-    public drawResponses = (gameId: string, playerId: string): CardInterface[] => {
-      const game = GamesList.games.filter((g) => g.id === gameId)[0];
-      const player = game.players.filter((p) => p.id === playerId)[0];
+    public drawResponses = (playerId: string): CardInterface[] => {
+      const player = PlayersList[playerId];
+      if (!player) {
+        const error = new Error('Player doesn\'t exist');
+        error.name = 'PlayerNotFound';
+        throw error;
+      }
+      const game = GamesList[player.gameId];
       const maxHandSize = Number(process.env.MAX_HAND_SIZE);
       for (let i = player.responses.length; i < maxHandSize; i += 1) {
         const randomCard = Math.floor(maxHandSize * Math.random());
@@ -15,9 +21,14 @@ class PlayerController {
       return player.responses;
     }
 
-    public drawPrompt = (gameId: string, playerId: string): CardInterface => {
-      const game = GamesList.games.filter((g) => g.id === gameId)[0];
-      const player = game.players.filter((p) => p.id === playerId)[0];
+    public drawPrompt = (playerId: string): CardInterface => {
+      const player = PlayersList[playerId];
+      if (!player) {
+        const error = new Error('Player doesn\'t exist');
+        error.name = 'PlayerNotFound';
+        throw error;
+      }
+      const game = GamesList[player.gameId];
       const randomCard = Math.floor((Number(process.env.MAX_HAND_SIZE) * Math.random()));
       const drawedCard = game.cards.prompts.splice(randomCard, 1)[0];
       player.prompt = drawedCard;
@@ -25,14 +36,15 @@ class PlayerController {
     }
 
     public joinGame = (gameId: string, playerName: string): PlayerInterface => {
-      const game = GamesList.games.filter((g) => g.id === gameId)[0];
+      const game = GamesList[gameId];
       if (!game) {
         const error = new Error('Game doesn\'t exist');
         error.name = 'GameNotFound';
         throw error;
       }
-      const player = new Player(game, playerName);
-      game.players.push(player);
+      const player = new Player(game.id, playerName);
+      GamesList[gameId].players[player.id] = player;
+      PlayersList[player.id] = player;
       return player;
     }
 }

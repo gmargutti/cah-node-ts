@@ -1,7 +1,5 @@
 import { GameInterface } from './Game';
 
-class GamesList {
-    public games: GameInterface[]= []
-}
+const games: Record<string, GameInterface> = {};
 
-export default new GamesList();
+export default games;

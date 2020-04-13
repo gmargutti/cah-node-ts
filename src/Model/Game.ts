@@ -4,7 +4,7 @@ import { PlayerInterface } from './Players';
 export interface GameInterface {
     id: string;
     cards: CardListInterface;
-    players: PlayerInterface[];
+    players: Record<string, PlayerInterface>;
 }
 
 class Game {
@@ -12,7 +12,7 @@ class Game {
 
     public cards: CardListInterface
 
-    public players: PlayerInterface[] = []
+    public players: Record<string, PlayerInterface> = {}
 
     public constructor(id: string, cards: CardListInterface) {
       this.id = id;

@@ -1,14 +1,7 @@
 import { Request, Response } from 'express';
 import GameController from '../Controller/GameController';
-import GamesList from '../Model/GamesList';
 
 class GameApiController {
-  private GameController: GameController
-
-  public constructor() {
-    this.GameController = new GameController(GamesList.games);
-  }
-
   /**
  * @api {post} /games Create new Game
  * @apiName PostGames
@@ -25,7 +18,7 @@ class GameApiController {
  *     }
  */
   public newGame = async (_req: Request, res: Response): Promise<Response> => {
-    const game = await this.GameController.newGame();
+    const game = await GameController.newGame();
     return res.json(game);
   }
 
@@ -54,7 +47,7 @@ class GameApiController {
  */
   public endGame = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const game = this.GameController.endGame(req.params.id);
+      const game = GameController.endGame(req.params.id);
       return res.json(game);
     } catch (err) {
       if (err.name === 'GameNotFound') {
@@ -81,7 +74,7 @@ class GameApiController {
  */
   public getGames = async (_req: Request, res: Response): Promise<Response> => {
     try {
-      const games = this.GameController.getGames();
+      const games = GameController.getGames();
       return res.json(games);
     } catch (err) {
       return res.status(500).json({ error: 'UnknownError' });
@@ -113,7 +106,7 @@ class GameApiController {
  */
   public getGame = (req: Request, res: Response): Response => {
     try {
-      const game = this.GameController.getGame(req.params.id);
+      const game = GameController.getGame(req.params.id);
       return res.json(game);
     } catch (err) {
       if (err.name === 'GameNotFound') {

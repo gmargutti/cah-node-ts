@@ -1,10 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import { CardInterface } from '../Schemas/Card';
-import { GameInterface } from './Game';
 
 export interface PlayerInterface {
     id: string;
-    game: GameInterface;
+    gameId: string;
     name: string;
     prompt?: CardInterface;
     responses: CardInterface[];
@@ -12,16 +11,16 @@ export interface PlayerInterface {
 }
 
 export default class Player {
-  public constructor(game: GameInterface, name: string) {
+  public constructor(gameId: string, name: string) {
     this.id = uuidv4();
     this.name = name;
-    this.game = game;
+    this.gameId = gameId;
     this.responses = [];
   }
 
     public id: string;
 
-    public game: GameInterface;
+    public gameId: string;
 
     public name: string;
 

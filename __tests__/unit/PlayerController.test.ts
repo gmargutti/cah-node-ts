@@ -4,6 +4,7 @@ import GameController from '../../src/Controller/GameController';
 import PlayerController from '../../src/Controller/PlayerController';
 import GamesList from '../../src/Model/GamesList';
 import Card from '../../src/Schemas/Card';
+import Player from '../../src/Model/Players';
 
 describe('PlayerController', () => {
   beforeAll(async () => {
@@ -18,32 +19,42 @@ describe('PlayerController', () => {
     mongoose.connection.close();
   });
   it('Should add player to a given game', async () => {
-    const controller = new GameController(GamesList.games);
-    const game = await controller.newGame();
-    PlayerController.joinGame(game.id, 'Gustavo');
-    expect(game.players.filter((p) => p.name === 'Gustavo').length).toBe(1);
+    const game = await GameController.newGame();
+    const player = PlayerController.joinGame(game.id, 'Gustavo');
+    expect(GamesList[game.id].players[player.id]).toBeInstanceOf(Player);
   });
 
-  it('Should throw error: GameNotFound', async () => {
-    const controller = new GameController(GamesList.games);
-    const game = await controller.newGame();
+  it('JoinGame: Should throw error: GameNotFound', async () => {
+    const game = await GameController.newGame();
     const wrongGameId = game.id.substring(game.id.length - 2);
     expect(() => PlayerController.joinGame(wrongGameId, 'Gustavo')).toThrow('Game doesn\'t exist');
   });
 
   it('Should draw a full hand of Response Cards to the player', async () => {
-    const controller = new GameController(GamesList.games);
-    const game = await controller.newGame();
+    const game = await GameController.newGame();
     const player = PlayerController.joinGame(game.id, 'Gustavo');
-    const responses = PlayerController.drawResponses(game.id, player.id);
+    const responses = PlayerController.drawResponses(player.id);
     expect(responses.length).toBe(Number(process.env.MAX_HAND_SIZE));
   });
 
-  it('Should draw a single Prompt Card to the player', async () => {
-    const controller = new GameController(GamesList.games);
-    const game = await controller.newGame();
+  it('DrawResponses: Should throw error PlayerNotFound', async () => {
+    const game = await GameController.newGame();
     const player = PlayerController.joinGame(game.id, 'Gustavo');
-    const prompt = PlayerController.drawPrompt(game.id, player.id);
+    const wrongPlayerId = player.id.substring(player.id.length - 2);
+    expect(() => PlayerController.drawResponses(wrongPlayerId)).toThrow('Player doesn\'t exist');
+  });
+
+  it('Should draw a single Prompt Card to the player', async () => {
+    const game = await GameController.newGame();
+    const player = PlayerController.joinGame(game.id, 'Gustavo');
+    const prompt = PlayerController.drawPrompt(player.id);
     expect(prompt).toBeInstanceOf(Card);
+  });
+
+  it('DrawPrompt: Should throw error PlayerNotFound', async () => {
+    const game = await GameController.newGame();
+    const player = PlayerController.joinGame(game.id, 'Gustavo');
+    const wrongPlayerId = player.id.substring(player.id.length - 2);
+    expect(() => PlayerController.drawPrompt(wrongPlayerId)).toThrow('Player doesn\'t exist');
   });
 });
