@@ -1,9 +1,10 @@
 import { CardListInterface } from '../Controller/CardController';
+import { PlayerInterface } from './Players';
 
 export interface GameInterface {
     id: string;
     cards: CardListInterface;
-    players?: object;
+    players: PlayerInterface[];
 }
 
 class Game {
@@ -11,7 +12,7 @@ class Game {
 
     public cards: CardListInterface
 
-    public players?: object
+    public players: PlayerInterface[] = []
 
     public constructor(id: string, cards: CardListInterface) {
       this.id = id;
