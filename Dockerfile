@@ -6,6 +6,6 @@ RUN yarn
 COPY . .
 RUN yarn tsc
 RUN yarn docs
-RUN yarn test
+RUN yarn coverage
 EXPOSE 3333
 CMD node ./dist/server.js
