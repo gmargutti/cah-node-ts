@@ -1,0 +1,8 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script>
+    var socket = io.connect();
+    socket.on('log', (msg) => console.log(msg))
+    socket.on('gameStateUpdated', data => console.log('game:', data))
+    socket.on('playerStateUpdated', data => console.log('player:', data))
+    socket.on('teste', data => console.log('error: ', data))
+</script>

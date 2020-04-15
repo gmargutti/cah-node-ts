@@ -33,8 +33,8 @@ describe('PlayerController', () => {
   it('Should draw a full hand of Response Cards to the player', async () => {
     const game = await GameController.newGame();
     const player = PlayerController.joinGame(game.id, 'Gustavo');
-    const responses = PlayerController.drawResponses(player.id);
-    expect(responses.length).toBe(Number(process.env.MAX_HAND_SIZE));
+    PlayerController.drawResponses(player.id);
+    expect(player.responses.length).toBe(Number(process.env.MAX_HAND_SIZE));
   });
 
   it('DrawResponses: Should throw error PlayerNotFound', async () => {
@@ -47,8 +47,8 @@ describe('PlayerController', () => {
   it('Should draw a single Prompt Card to the player', async () => {
     const game = await GameController.newGame();
     const player = PlayerController.joinGame(game.id, 'Gustavo');
-    const prompt = PlayerController.drawPrompt(player.id);
-    expect(prompt).toBeInstanceOf(Card);
+    PlayerController.drawPrompt(player.id);
+    expect(player.prompt).toBeInstanceOf(Card);
   });
 
   it('DrawPrompt: Should throw error PlayerNotFound', async () => {
@@ -56,5 +56,19 @@ describe('PlayerController', () => {
     const player = PlayerController.joinGame(game.id, 'Gustavo');
     const wrongPlayerId = player.id.substring(player.id.length - 2);
     expect(() => PlayerController.drawPrompt(wrongPlayerId)).toThrow('Player doesn\'t exist');
+  });
+
+  it('Should add 1 point to player\'s score', async () => {
+    const game = await GameController.newGame();
+    const player = PlayerController.joinGame(game.id, 'Gustavo');
+    PlayerController.addScore(player.id);
+    expect(player.score).toBe(1);
+  });
+
+  it('Should remove player from the game', async () => {
+    const game = await GameController.newGame();
+    const player = PlayerController.joinGame(game.id, 'Gustavo');
+    PlayerController.exitGame(player.id);
+    expect(Object.keys(game.players).length).toBe(0);
   });
 });

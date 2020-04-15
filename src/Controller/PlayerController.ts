@@ -1,10 +1,9 @@
 import GamesList from '../Model/GamesList';
-import { CardInterface } from '../Schemas/Card';
 import Player, { PlayerInterface } from '../Model/Players';
 import PlayersList from '../Model/PlayersList';
 
 class PlayerController {
-    public drawResponses = (playerId: string): CardInterface[] => {
+    public drawResponses = (playerId: string): PlayerInterface => {
       const player = PlayersList[playerId];
       if (!player) {
         const error = new Error('Player doesn\'t exist');
@@ -18,10 +17,10 @@ class PlayerController {
         const drawedCard = game.cards.responses.splice(randomCard, 1)[0];
         player.responses.push(drawedCard);
       }
-      return player.responses;
+      return player;
     }
 
-    public drawPrompt = (playerId: string): CardInterface => {
+    public drawPrompt = (playerId: string): PlayerInterface => {
       const player = PlayersList[playerId];
       if (!player) {
         const error = new Error('Player doesn\'t exist');
@@ -32,7 +31,7 @@ class PlayerController {
       const randomCard = Math.floor((Number(process.env.MAX_HAND_SIZE) * Math.random()));
       const drawedCard = game.cards.prompts.splice(randomCard, 1)[0];
       player.prompt = drawedCard;
-      return drawedCard;
+      return player;
     }
 
     public joinGame = (gameId: string, playerName: string): PlayerInterface => {
@@ -45,6 +44,18 @@ class PlayerController {
       const player = new Player(game.id, playerName);
       GamesList[gameId].players[player.id] = player;
       PlayersList[player.id] = player;
+      return player;
+    }
+
+    public addScore = (playerId: string): PlayerInterface => {
+      const player = PlayersList[playerId];
+      player.score += 1;
+      return player;
+    }
+
+    public exitGame = (playerId: string): PlayerInterface => {
+      const player = PlayersList[playerId];
+      delete GamesList[player.gameId].players[player.id];
       return player;
     }
 }
