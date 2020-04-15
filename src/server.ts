@@ -1,7 +1,7 @@
 import http from 'http';
 import socketio from 'socket.io';
 import app from './app';
-import ConnectionEvent from '../src/Events/ConnectionEvent';
+import ConnectionEvent from './Events/ConnectionEvent';
 
 const httpServer = http.createServer(app);
 
