@@ -7,18 +7,15 @@
         {
             "type": "node",
             "request": "attach",
-            "processId": "${command:PickProcess}",
-            "name": "Launch Program",
+            "protocol": "inspector",
+            "restart": true,
+            "name": "Debug",
             "skipFiles": [
                 "<node_internals>/**"
+            ],
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
             ]
-        },
-        {
-            "name": "Docker Node.js Launch",
-            "type": "docker",
-            "request": "launch",
-            "preLaunchTask": "docker-run: debug",
-            "platform": "node"
         }
     ]
 }

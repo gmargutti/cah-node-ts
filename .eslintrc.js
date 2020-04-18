@@ -23,7 +23,7 @@ module.exports = {
       {
         "ts": "never"
       }
-    ]
+    ],
     "class-methods-use-this": "off",
   },
   settings: {

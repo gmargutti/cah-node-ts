@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --inspect src/server.ts",
+    "dev": "ts-node-dev --inspect --transpileOnly --ignore node_modules src/server.ts",
     "prebuild": "apidoc -i src/ -o apidoc/",
     "build": "sucrase ./src -d ./dist --transforms typescript,imports",
     "docs": "apidoc -i src/ -o apidoc/",
@@ -29,11 +29,10 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.2",
     "jest": "^25.3.0",
-    "nodemon": "^2.0.2",
     "prettier": "^2.0.4",
-    "sucrase": "^3.13.0",
     "supertest": "^4.0.2",
     "ts-jest": "^25.3.1",
+    "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.8.3"
   },
   "dependencies": {
