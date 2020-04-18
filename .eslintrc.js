@@ -17,6 +17,18 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   rules: {
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never"
+      }
+    ]
     "class-methods-use-this": "off",
   },
+  settings: {
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
 };
